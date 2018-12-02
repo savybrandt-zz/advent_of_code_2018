@@ -67,24 +67,22 @@ What is the first frequency your device reaches twice?
 const findRepeatFrequency = (changes) => {
   let repeatFrequeny;
   let currentFrequency = 0;
-  const frequencyList = [0];
+  const frequencyMap = {
+    0: true
+  };
 
   const reduceFrequencies = (startingFrequency, changes) => {
     changes.reduce((frequency, change, i, list) => {
       currentFrequency = frequency + Number(change);
-      if(frequencyList.indexOf(currentFrequency) != -1){
+      if(frequencyMap[currentFrequency]){
         repeatFrequeny = currentFrequency;
         list.splice(i); //break
       }
-      frequencyList.push(currentFrequency);
+      frequencyMap[currentFrequency] = true;
       return currentFrequency;
     }, startingFrequency);
 
-    if(repeatFrequeny != undefined){
-      return repeatFrequeny;
-    } else {
-      return reduceFrequencies(currentFrequency, changes);
-    }
+    return (repeatFrequeny ? repeatFrequeny : reduceFrequencies(currentFrequency, changes));
   }
   return reduceFrequencies(currentFrequency,changes);
 }
