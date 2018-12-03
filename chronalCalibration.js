@@ -67,34 +67,27 @@ What is the first frequency your device reaches twice?
 const findRepeatFrequency = (changes) => {
   let repeatFrequeny;
   let currentFrequency = 0;
-  const frequencyMap = {
-    0: true
-  };
+  const frequenciesSeen = {0: true};
 
   const reduceFrequencies = (startingFrequency, changes) => {
     changes.reduce((frequency, change, i, list) => {
       currentFrequency = frequency + Number(change);
-      if(frequencyMap[currentFrequency]){
+      if(frequenciesSeen[currentFrequency]){
         repeatFrequeny = currentFrequency;
         list.splice(i); //break
       }
-      frequencyMap[currentFrequency] = true;
+      frequenciesSeen[currentFrequency] = true;
       return currentFrequency;
     }, startingFrequency);
 
-    return (repeatFrequeny ? repeatFrequeny : reduceFrequencies(currentFrequency, changes));
+    return repeatFrequeny ? repeatFrequeny : reduceFrequencies(currentFrequency, changes);
   }
   return reduceFrequencies(currentFrequency,changes);
 }
 
 /*
-console.log(findRepeatFrequency(['+1', '-1']) + ' should be 0');
-console.log(findRepeatFrequency(['+3', '+3', '+4', '-2', '-4']) + ' should be 10');
-console.log(findRepeatFrequency(['-6', '+3', '+8', '+5', '-6']) + ' should be 5');
-console.log(findRepeatFrequency(['+7', '+7', '-2', '-7', '-4']) + ' should be 14');
-console.log(findRepeatFrequency(['+1', '-2', '+3', '+1', '+1', '-2']) + ' should be 2');
 
-console.log(findRepeatFrequency(changes) + ' should be 227');
+227
 
 That's the right answer! You are one gold star closer to fixing the time stream. *
 
